@@ -11,7 +11,8 @@ import java.util.Set;
 public class Graph<T> {
 	private Map<String, Set<String>> flightRoutes = new HashMap<>();
 	private Map<String, Map<String, List<FlightDTO>>> flightMap = new HashMap<>();
-
+	
+	// method is invoked while creating a new record all the records are saved as a graph data structure to enable quick searching
 	public void addConnections(String origin, FlightDTO flight) {
 
 		if (flightMap.containsKey(origin)) {
@@ -56,6 +57,7 @@ public class Graph<T> {
 	public void setFlightRoutes(Map<String, Set<String>> flightRoutes) {
 		this.flightRoutes = flightRoutes;
 	}
+	// retrieves all possible paths between two nodes in a directed graph
 
 	public List<List<String>> getConnections(String origin, String destination) {
 		Map<String, Boolean> visitedMap = new HashMap<>();

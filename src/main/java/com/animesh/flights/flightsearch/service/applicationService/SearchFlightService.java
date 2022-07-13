@@ -37,7 +37,7 @@ public class SearchFlightService {
 	public void init() {
 		allowedFilters.add(Constant.ORIGIN);
 		allowedFilters.add(Constant.DESTINATION);
-
+// adds all the comparators to sort parameters map
 		sortParameters.put(SortConstants.PRICE, FlightComparators.sortByPriceAsc);
 		sortParameters.put(SortConstants.PRICEASC, FlightComparators.sortByPriceAsc);
 		sortParameters.put(SortConstants.PRICEPLUS, FlightComparators.sortByPriceAsc);
@@ -63,6 +63,8 @@ public class SearchFlightService {
 		sortParameters.put(SortConstants.DEPARTURETIMEASC, FlightComparators.sortByDepartureTimeDesc);
 
 	}
+	// retrieves a list of all possible connections between two cities and sort the
+	// list based on sort parameter provided
 
 	public List<ResultDTO> searchFlights(Params params) throws BadRequestException {
 
@@ -93,7 +95,7 @@ public class SearchFlightService {
 		}
 
 	}
-
+//retrieves all the possible connections
 	private List<List<FlightDTO>> retrieveAllFlights(List<List<String>> connections) {
 		List<List<FlightDTO>> allConnections = new ArrayList<>();
 		for (List<String> list : connections) {
@@ -110,7 +112,7 @@ public class SearchFlightService {
 
 		return allConnections;
 	}
-
+// retrieves connections between 2 points
 	private void findConnectingFlightsBetweenPoints(List<List<FlightDTO>> list,
 			List<FlightDTO> flightsBetweenTwoPoints) {
 		List<List<FlightDTO>> returnList = new ArrayList<>();
@@ -137,7 +139,7 @@ public class SearchFlightService {
 		list.clear();
 		list.addAll(returnList);
 	}
-
+// maps the list of list of Flights to the Result DTO
 	private List<ResultDTO> mapListToResultDTO(List<List<FlightDTO>> list) {
 		List<ResultDTO> resultList = new ArrayList<>();
 		for (List<FlightDTO> l1 : list) {
