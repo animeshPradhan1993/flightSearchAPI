@@ -14,6 +14,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import com.animesh.flights.flightsearch.Constant;
 import com.animesh.flights.flightsearch.FlightComparators;
@@ -69,19 +70,23 @@ public class SearchFlightService {
 
 			throw new BadRequestException("Please enter the destination");
 		}
+		if (!StringUtils.isEmpty(params.getSort())) {
+			Optional<Comparator<ResultDTO>> c1 = Optional
+					.ofNullable(Optional.ofNullable(sortParameters.get(params.getSort().toLowerCase().trim()))
+							.orElseThrow(() -> new BadRequestException("Invalid sort Parameter")));
 
-		Optional<Comparator<ResultDTO>> c1 = Optional
-				.ofNullable(Optional.ofNullable(sortParameters.get(params.getSort().toLowerCase().trim()))
-						.orElseThrow(() -> new BadRequestException("Invalid sort Parameter")));
+			List<List<String>> connections = flightGraph.getConnections(params.getOrigin(), params.getDestination());
 
-		List<List<String>> connections = flightGraph.getConnections(params.getOrigin(), params.getDestination());
+			List<ResultDTO> retrievedFlights = mapListToResultDTO(retrieveAllFlights(connections));
+			if (c1 != null) {
+				Collections.sort(retrievedFlights, c1.get());
+			}
 
-		List<ResultDTO> retrievedFlights = mapListToResultDTO(retrieveAllFlights(connections));
-		if (c1 != null) {
-			Collections.sort(retrievedFlights, c1.get());
+			return retrievedFlights;
+		} else {
+			return mapListToResultDTO(
+					retrieveAllFlights(flightGraph.getConnections(params.getOrigin(), params.getDestination())));
 		}
-
-		return retrievedFlights;
 
 	}
 
@@ -90,7 +95,8 @@ public class SearchFlightService {
 		for (List<String> list : connections) {
 			List<List<FlightDTO>> listOfFinalFLights = new ArrayList<>();
 			for (int i = 0; i < list.size() - 1; i++) {
-				List<FlightDTO> flightsBetweenTwoPoints = flightGraph.getFlightMap().get(list.get(i)).get(list.get(i + 1));
+				List<FlightDTO> flightsBetweenTwoPoints = flightGraph.getFlightMap().get(list.get(i))
+						.get(list.get(i + 1));
 				findConnectingFlightsBetweenPoints(listOfFinalFLights, flightsBetweenTwoPoints);
 
 			}
@@ -101,7 +107,8 @@ public class SearchFlightService {
 		return allConnections;
 	}
 
-	private void findConnectingFlightsBetweenPoints(List<List<FlightDTO>> list, List<FlightDTO> flightsBetweenTwoPoints) {
+	private void findConnectingFlightsBetweenPoints(List<List<FlightDTO>> list,
+			List<FlightDTO> flightsBetweenTwoPoints) {
 		List<List<FlightDTO>> returnList = new ArrayList<>();
 		if (list.isEmpty()) {
 			for (int i = 0; i < flightsBetweenTwoPoints.size(); i++) {
