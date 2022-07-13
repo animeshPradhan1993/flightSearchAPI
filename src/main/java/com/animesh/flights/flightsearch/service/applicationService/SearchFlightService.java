@@ -38,21 +38,25 @@ public class SearchFlightService {
 		allowedFilters.add(Constant.ORIGIN);
 		allowedFilters.add(Constant.DESTINATION);
 
+		sortParameters.put(SortConstants.PRICE, FlightComparators.sortByPriceAsc);
 		sortParameters.put(SortConstants.PRICEASC, FlightComparators.sortByPriceAsc);
 		sortParameters.put(SortConstants.PRICEPLUS, FlightComparators.sortByPriceAsc);
 		sortParameters.put(SortConstants.PRICEDESC, FlightComparators.sortByPriceDesc);
 		sortParameters.put(SortConstants.PRICEMINUS, FlightComparators.sortByPriceDesc);
 
-		sortParameters.put(SortConstants.TRAVELTIMEASC, FlightComparators.sortBytravelTimeDesc);
-		sortParameters.put(SortConstants.TRAVELTIMEASC, FlightComparators.sortBytravelTimeDesc);
+		sortParameters.put(SortConstants.TRAVELTIME, FlightComparators.sortBytravelTimeAsc);
+		sortParameters.put(SortConstants.TRAVELTIMEDESC, FlightComparators.sortBytravelTimeDesc);
+		sortParameters.put(SortConstants.TRAVELTIMEMINUS, FlightComparators.sortBytravelTimeDesc);
 		sortParameters.put(SortConstants.TRAVELTIMEASC, FlightComparators.sortBytravelTimeAsc);
-		sortParameters.put(SortConstants.TRAVELTIMEASC, FlightComparators.sortBytravelTimeAsc);
+		sortParameters.put(SortConstants.TRAVELTIMEPLUS, FlightComparators.sortBytravelTimeAsc);
 
+		sortParameters.put(SortConstants.ARRIVALTIME, FlightComparators.sortByArrivalTimeAsc);
 		sortParameters.put(SortConstants.ARRIVALTIMEASC, FlightComparators.sortByArrivalTimeAsc);
 		sortParameters.put(SortConstants.ARRIVALTIMEPLUS, FlightComparators.sortByArrivalTimeAsc);
 		sortParameters.put(SortConstants.ARRIVALTIMEDESC, FlightComparators.sortByArrivalTimeDesc);
 		sortParameters.put(SortConstants.ARRIVALTIMEMINUS, FlightComparators.sortByArrivalTimeDesc);
 
+		sortParameters.put(SortConstants.DEPARTURETIME, FlightComparators.sortByDepartureTimeAsc);
 		sortParameters.put(SortConstants.DEPARTURETIMEASC, FlightComparators.sortByDepartureTimeAsc);
 		sortParameters.put(SortConstants.DEPARTURETIMEASC, FlightComparators.sortByDepartureTimeAsc);
 		sortParameters.put(SortConstants.DEPARTURETIMEDESC, FlightComparators.sortByDepartureTimeDesc);
